@@ -33,26 +33,80 @@ function oldScrabbleScorer(word) {
 // don't change the names or your program won't work as expected. //
 
 function initialPrompt() {
-   console.log("Let's play some scrabble! Enter a word:");
+  return input.question("Let's play some scrabble! Enter a word: ");
 };
 
-let simpleScore;
+let simpleScore = function(word) {
+  return word.length;
+};
 
-let vowelBonusScore;
+let vowelBonusScore = function(word) {
+  let score = 0;
+  for(let i = 0; i < word.length; i++) {
+    let isVowel = "aeiouAEIOU".indexOf(word[i]) != -1;
+    if (isVowel) {
+      score+=3;
+    } else {
+      score+=1;
+    }
+  }
+  return score;
+};
 
 let scrabbleScore;
 
-const scoringAlgorithms = [];
+const scoringAlgorithms = [
+  {
+    name: "Simple Score",
+    description: "Each letter is worth 1 point.",
+    scoreFunction: simpleScore
+  },
+  {
+    name: "Bonus Vowels",
+    description: "Vowels are 3 pts, consonants are 1 pt.",
+    scoreFunction: vowelBonusScore
+  },
+  {
+    name: "Scrabble",
+    description: "The traditional scoring algorithm.",
+    scoreFunction: oldScrabbleScorer
+  }
+];
 
-function scorerPrompt() {}
+function scorerPrompt() {
+  console.log("Which scoring algorithm would you like to use? ");
+  console.log();
+  for(let i = 0; i < scoringAlgorithms.length; i++) {
+    let algo = scoringAlgorithms[i];
+    console.log(`${i} - ${algo.name} - ${algo.description}`);
+  }
+  let index = Number(input.question("Enter: "));
+  return scoringAlgorithms[index];
+}
 
-function transform() {};
+function transform(oldStructure) {
+  const newStructure = {};
+  for (const key in oldStructure) {
+    for(let i = 0; i < oldStructure[key].length; i++) {
+      const value = oldPointStructure[key][i];
+      console.log(`${value}`);
+      newStructure[value] = key;
+    }
+  }
+  console.log(newStructure);
+
+  for (const key in newStructure) {
+    console.log(`${key}: ${newStructure[key]}`);
+  }
+};
 
 let newPointStructure;
 
 function runProgram() {
-   initialPrompt();
-   
+  transform(oldPointStructure);
+  let word = initialPrompt();
+  let algo = scorerPrompt();
+  console.log(word, algo);
 }
 
 // Don't write any code below this line //
