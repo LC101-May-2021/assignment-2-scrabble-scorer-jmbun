@@ -55,12 +55,12 @@ let vowelBonusScore = function(word) {
 };
 
 let scrabbleScore = function(word) {
-  let newPointStructure = transform(oldPointStructure);
+  newPointStructure = transform(oldPointStructure);
 
   let score = 0;
-	for (let i = 0; i < word.length; i++) {
+  for (let i = 0; i < word.length; i++) {
     score += newPointStructure[word[i]];
-	}
+  }
 
 	return score;
 }
@@ -69,17 +69,17 @@ const scoringAlgorithms = [
   {
     name: "Simple Score",
     description: "Each letter is worth 1 point.",
-    scoreFunction: simpleScore
+    scoringFunction: simpleScore
   },
   {
     name: "Bonus Vowels",
     description: "Vowels are 3 pts, consonants are 1 pt.",
-    scoreFunction: vowelBonusScore
+    scoringFunction: vowelBonusScore
   },
   {
     name: "Scrabble",
     description: "The traditional scoring algorithm.",
-    scoreFunction: scrabbleScore
+    scoringFunction: scrabbleScore
   }
 ];
 
@@ -100,7 +100,6 @@ function transform(oldStructure) {
     for(let i = 0; i < oldStructure[key].length; i++) {
       const value = oldPointStructure[key][i];
       newStructure[value.toLowerCase()] = Number(key);
-      newStructure[value] = Number(key);
     }
   }
   console.log(newStructure);
@@ -112,7 +111,7 @@ let newPointStructure;
 function runProgram() {
   let word = initialPrompt();
   let algo = scorerPrompt();
-  let score = algo.scoreFunction(word);
+  let score = algo.scoringFunction(word);
   console.log(`Score for '${word}' is ${score}!`);
 }
 
